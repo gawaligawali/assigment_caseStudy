@@ -1,6 +1,8 @@
 ﻿using Day39CaseStudy.DataAccess.Models;
 using Day39CaseStudy.Services.DbService.Interfaces;
 using Day39CaseStudy.Services.Factory;
+using System;
+using System.Collections.Generic;
 
 namespace Day39CaseStudy.Services.UserInterface
 {
@@ -19,7 +21,7 @@ namespace Day39CaseStudy.Services.UserInterface
             var product = new Product();
 
             Console.WriteLine("Adding New Product");
-            Console.WriteLine("----------------");
+            Console.WriteLine("--------------------------------------------------------");
 
             Console.Write("Enter Product Name: ");
             var productNameText = Console.ReadLine();
@@ -59,7 +61,7 @@ namespace Day39CaseStudy.Services.UserInterface
         public void Update()
         {
             Console.WriteLine("Updating existing Product");
-            Console.WriteLine("-----------------------");
+            Console.WriteLine("--------------------------------------------------------");
 
             Console.Write("Enter Product Name to Update: ");
             var productNameText = Console.ReadLine();
@@ -73,7 +75,7 @@ namespace Day39CaseStudy.Services.UserInterface
             }
 
             Console.WriteLine($"Found Product: {product}");
-            Console.WriteLine("-------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------");
 
             Console.Write("Enter Product Name to change: ");
             product.ProductName = Console.ReadLine();
@@ -100,7 +102,7 @@ namespace Day39CaseStudy.Services.UserInterface
         public void Delete()
         {
             Console.WriteLine("Deleting existing Product");
-            Console.WriteLine("-----------------------");
+            Console.WriteLine("--------------------------------------------------------");
 
             Console.Write("Enter the Product Id to delete: ");
             var productIdText = Console.ReadLine();
@@ -114,15 +116,15 @@ namespace Day39CaseStudy.Services.UserInterface
             var products = _productService.GetAll();
 
             Console.WriteLine("Product List");
-            Console.WriteLine("----------");
+            Console.WriteLine("--------------------------------------------------------");
 
             Console.WriteLine(Product.Header);
-            Console.WriteLine("------------------");
+            Console.WriteLine("--------------------------------------------------------");
             foreach (var product in products)
-            {
+            { //if(product.BrandId==)
                 Console.WriteLine(product);
             }
-            Console.WriteLine("------------------");
+            Console.WriteLine("--------------------------------------------------------");
         }
     }
 }

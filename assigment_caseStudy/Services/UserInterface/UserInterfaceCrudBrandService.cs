@@ -20,12 +20,12 @@ public class UserInterfaceCrudBrandService
     public void Add()
     {
         Console.WriteLine("Adding New Brand");
-        Console.WriteLine("----------------");
+        Console.WriteLine("----------------------------");
 
         Console.Write("Enter Brand Name: ");
         var brandNameText = Console.ReadLine();
 
-    
+
         var brand = new Brand { BrandName = brandNameText };
 
         _brandService.Add(brand);
@@ -39,7 +39,7 @@ public class UserInterfaceCrudBrandService
     public void Update()
     {
         Console.WriteLine("Updating existing Brand");
-        Console.WriteLine("-----------------------");
+        Console.WriteLine("----------------------------");
 
         Console.Write("Enter Brand Name to Update: ");
         var brandNameText = Console.ReadLine();
@@ -58,20 +58,20 @@ public class UserInterfaceCrudBrandService
         var changedBrandNameText = Console.ReadLine();
 
         brand.BrandName = changedBrandNameText;
-        
+
         _brandService.Update(brand);
     }
 
     public void Delete()
     {
         Console.WriteLine("Deleting existing Brand");
-        Console.WriteLine("-----------------------");
+        Console.WriteLine("----------------------------");
 
         Console.Write("Enter the Brand Id to delete: ");
         var brandIdText = Console.ReadLine();
 
         var brandId = int.Parse(brandIdText);
-        
+
         try
         {
             _brandService.Delete(brandId);
@@ -89,14 +89,14 @@ public class UserInterfaceCrudBrandService
         var brands = _brandService.GetAll();
 
         Console.WriteLine("Brand List");
-        Console.WriteLine("----------");
+        Console.WriteLine("----------------------------");
 
         Console.WriteLine(Brand.Header);
-        Console.WriteLine("------------------");
+        Console.WriteLine("----------------------------");
         foreach (var brand in brands)
         {
             Console.WriteLine(brand);
         }
-        Console.WriteLine("------------------");
+        Console.WriteLine("----------------------------");
     }
 }

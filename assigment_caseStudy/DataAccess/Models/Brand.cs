@@ -14,11 +14,11 @@ namespace Day39CaseStudy.DataAccess.Models
         [Column("brand_name")]
         public string BrandName { get; set; }
 
-        public static string Header => "BrandId, BrandName";
+        public static string Header => "BrandId    BrandName";
 
         public override string ToString()
         {
-            return $"{BrandId},{BrandName}";
+            return $"| {BrandId,-5} |{BrandName,-15} |";
         }
     }
 }

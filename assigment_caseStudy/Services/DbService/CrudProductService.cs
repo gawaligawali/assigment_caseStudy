@@ -2,6 +2,7 @@
 using Day39CaseStudy.DataAccess.Models;
 using Day39CaseStudy.Services.DbService.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Day39CaseStudy.Services.DbService;
 
@@ -21,28 +22,72 @@ public class CrudProductService : ICrudService<Product>
 
         //var brand = from Product in context.Products.ToList()
 
-        var products = context.Products
-                .Include("brand")
-                .Include("categories").ToList();
 
-
-        //var prod = 
-        //     from p in context.Products
-        //     from b in context.Brands
-        //     group p by 
-        //     where p.BrandId == b.BrandId
-        //     select ;
+        //var brand = from b in context.Brands
+        //            group b by b.BrandName into g
+        //            select new Brandnew { Bandname = g.Key};
 
 
 
+        ////var prod =
+        ////     from p in context.Products
+        ////     from b in context.Brands
+        ////     where p.BrandId == b.BrandId
+        ////     group p by b.BrandId into g
+        ////     select new g.();
 
 
-        return context.Products
-            .Include("Brand")
-            .Include("Category")
-            .OrderBy(p => p.BrandId)
-                .ThenBy(p => p.ProductId)
-            .ToList();
+
+
+
+        //var getProducts = from p in context.Products
+        //                  join b in context.Brands
+        //                  on p.BrandId equals b.BrandId
+        //                  join cat in context.Categories
+        //                  on p.CategoryId equals cat.CategoryId
+        //                  orderby
+        //                      p.BrandId, p.ProductId
+
+        //                  select p;
+
+
+        var products = (from p in context.Products
+                       join b in context.Brands
+                         on p.BrandId equals b.BrandId
+                       join cat in context.Categories
+                       on p.CategoryId equals cat.CategoryId
+                       orderby
+                             p.BrandId, p.ProductId
+                       select new Product
+                       {
+                           ProductId = p.ProductId, 
+                           ProductName = p.ProductName,
+                           BrandId = p.BrandId,
+                           CategoryId = p.CategoryId,
+                           ModelYear = p.ModelYear,
+                           ListPrice = p.ListPrice,
+                           Brand   = b,
+                           Category = cat,
+                           
+                       }).ToList();
+
+        return products;
+
+
+
+
+
+
+       // return getProducts.ToList();
+
+
+
+        //return context.Products
+        //    .Include("Brand")
+        //    .Include("Category")
+        //    .OrderBy(p => p.BrandId)
+        //        .ThenBy(p => p.ProductId)
+        //    .ToList();
     }
 
     public void Update(Product product)
@@ -60,7 +105,7 @@ public class CrudProductService : ICrudService<Product>
         var product = from p in context.Products
                       where p.ProductName == productName
                       select p;
-                 
+
         return product.SingleOrDefault();
     }
 
@@ -68,7 +113,10 @@ public class CrudProductService : ICrudService<Product>
     {
         using var context = new SampleStoreDbContext();
 
-        var product = context.Products.Find(productId);
+        //var product = context.Products.Find(productId);
+        var product = from p in context.Products
+                      where p.ProductId == productId
+                      select p;
 
         if (product == null)
         {
@@ -76,7 +124,20 @@ public class CrudProductService : ICrudService<Product>
             return;
         }
 
-        context.Products.Remove(product);
+        context.Products.Remove(product.SingleOrDefault());
         context.SaveChanges();
     }
+}
+
+public class BrandProduct
+{
+    public int BrandId { get; set; }
+    public string Bandname { get; set; }
+
+    public Product Product { get; set; }
+    public override string ToString()
+    {
+        return $"| {BrandId}|";
+    }
+
 }

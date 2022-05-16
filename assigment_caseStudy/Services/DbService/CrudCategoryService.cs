@@ -36,7 +36,9 @@ public class CrudCategoryService : ICrudService<Category>
     {
         using var context = new SampleStoreDbContext();
 
-        return context.Categories.ToList();
+        var category = from Category in context.Categories.ToList()
+                    select Category;
+        return category;
     }
 
     public Category GetByName(string categoryName)
